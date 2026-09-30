@@ -1,13 +1,11 @@
-//import { useState } from 'react'
-import Header from './Components/Header'
-import Body from './Components/Body'
-//import './App.css'
+import Header from './Components/Header.jsx'
+import Body from './Components/Body.jsx'
 
 export default function App() {
   return (
-      <>
+    <>
         <Header />
         <Body />
-      </>
-    )
+    </>
+  );
 }
