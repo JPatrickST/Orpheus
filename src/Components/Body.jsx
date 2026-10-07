@@ -1,8 +1,36 @@
+import Specs from "./Specs";
+import PaymentDetails from "./PaymentDetails";
+
 export default function Body() {
 
     return (
         <main>
-            This is the body of the page. It will contain the main content of the website, including text, images, and other elements that are relevant to the user. The body is an essential part of any web page, as it provides the information and functionality that users are looking for.
+            <div className="flex flex-row justify-center items-center max-w-5xl mx-auto gap-6 mt-6">
+                <div className="flex-1 flex flex-col justify-center items-center gap-6 w-full max-w-2xl min-w-0">
+                    <div className="w-full bg-stone-200 rounded-lg p-4">
+                        <h1>
+                            Picture
+                        </h1>   
+                    </div>
+                    
+                    <div className="w-full bg-stone-200 rounded-lg p-4">
+                        <h1>
+                            Sound Sample
+                        </h1>
+                    </div>
+                </div>
+
+                <div className="flex-1 flex flex-col justify-center items-center gap-6 w-full max-w-2xl min-w-0">
+                    <div className="w-full bg-stone-200 rounded-lg p-4">
+                        <Specs />
+                    </div>
+                    <div className="w-full bg-stone-200 rounded-lg p-4">
+                        <PaymentDetails />
+                    </div>
+                    
+                    
+                </div>
+            </div>    
         </main>
     )
 
