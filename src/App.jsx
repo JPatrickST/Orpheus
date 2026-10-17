@@ -8,6 +8,10 @@ export default function App() {
   //State for the page, default is home
   const [page, setPage] = useState('home')
 
+  const [cart, setCart] = useState([
+    { id: 1, price: 19.99, name: 'Product 1' },
+  ])
+
 
   if (page === 'home') {
     return (
@@ -19,6 +23,7 @@ export default function App() {
     <>
         <Header 
           onHome={() => setPage('home')}
+          cart={cart}
         />
         <Body 
           products={products}
