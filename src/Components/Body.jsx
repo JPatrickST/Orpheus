@@ -1,7 +1,7 @@
 import Specs from "./Specs";
 import PaymentDetails from "./PaymentDetails";
 
-export default function Body() {
+export default function Body({ products }) {
 
     return (
         <main>
