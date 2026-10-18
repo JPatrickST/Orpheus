@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { products } from './Data/products.js'
 import Home from './Components/Home.jsx'
 import Header from './Components/Header.jsx'
 import Body from './Components/Body.jsx'
-import { products } from './Data/products.js'
 
 export default function App() {
   //State for the page, default is home
@@ -12,6 +12,9 @@ export default function App() {
     { id: 1, price: 19.99, name: 'Product 1' },
   ])
 
+  const [selectedProduct, setSelectedProduct] = useState(products[0].id)
+
+  useEffect(() => {window.scrollTo(0, 0)}, [page])
 
   if (page === 'home') {
     return (
@@ -23,7 +26,10 @@ export default function App() {
     <>
         <Header 
           onHome={() => setPage('home')}
+          products={products}
           cart={cart}
+          selectedProduct={selectedProduct}
+          setSelectedProduct={setSelectedProduct}
         />
         <Body 
           products={products}

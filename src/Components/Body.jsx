@@ -22,7 +22,9 @@ export default function Body({ products }) {
 
                 <div className="flex-1 flex flex-col justify-center items-center gap-6 w-full max-w-2xl min-w-0">
                     <div className="w-full bg-stone-200 rounded-lg p-4">
-                        <Specs />
+                        <Specs
+                            products={products}
+                        />
                     </div>
                     <div className="w-full bg-stone-200 rounded-lg p-4">
                         <PaymentDetails />
