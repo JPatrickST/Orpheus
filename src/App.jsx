@@ -14,6 +14,9 @@ export default function App() {
 
   const [selectedProduct, setSelectedProduct] = useState(products[0].id)
 
+  const currentProduct = products.find(
+    (product) => product.id === selectedProduct)
+
   useEffect(() => {window.scrollTo(0, 0)}, [page])
 
   if (page === 'home') {
@@ -24,16 +27,16 @@ export default function App() {
 
   return (
     <>
-        <Header 
-          onHome={() => setPage('home')}
-          products={products}
-          cart={cart}
-          selectedProduct={selectedProduct}
-          setSelectedProduct={setSelectedProduct}
-        />
-        <Body 
-          products={products}
-        />
+      <Header 
+        onHome={() => setPage('home')}
+        products={products}
+        cart={cart}
+        selectedProduct={selectedProduct}
+        setSelectedProduct={setSelectedProduct}
+      />
+      <Body 
+        currentProduct={currentProduct}
+      />
 
     </>
   );
