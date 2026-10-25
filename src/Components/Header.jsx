@@ -1,9 +1,18 @@
+import { useNavigate } from "react-router-dom"
+
 export default function Header({onHome, products, selectedProduct, setSelectedProduct}) {
+
+    const navigate = useNavigate()
+
+    const onEnter = () => {
+        navigate('home')
+    }
+
     return (
         <header className="border-b border-stone-400 text-center">
             <h1 className="text-4xl font-bold text-stone-800 py-4 transition-colors duration-200 ease-in-out ">
                 <button className="hover:text-stone-600"
-                    onClick={onHome}>
+                    onClick={onEnter}>
                     Orpheus
                 </button>
             </h1>

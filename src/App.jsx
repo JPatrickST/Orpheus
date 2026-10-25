@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { products } from './Data/products.js'
 import Home from './Components/Home.jsx'
 import Header from './Components/Header.jsx'
@@ -26,18 +27,29 @@ export default function App() {
   }
 
   return (
-    <>
-      <Header 
-        onHome={() => setPage('home')}
-        products={products}
-        cart={cart}
-        selectedProduct={selectedProduct}
-        setSelectedProduct={setSelectedProduct}
-      />
-      <Body 
-        currentProduct={currentProduct}
-      />
-
-    </>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+          <Header 
+            onHome={() => setPage('home')}
+            products={products}
+            cart={cart}
+            selectedProduct={selectedProduct}
+            setSelectedProduct={setSelectedProduct}
+          />
+          }
+        />
+        <Route 
+          path='/body'
+          element ={
+          <Body 
+            currentProduct={currentProduct}
+          />
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  )
 }
