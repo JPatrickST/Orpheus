@@ -1,4 +1,9 @@
 export default function Specs({ currentProduct }) {
+
+    const formatMoney = (amount) => {
+        return `$ ${amount.toLocaleString()}`
+    }
+
     return (
         <article>
             
