@@ -1,11 +1,11 @@
 import { useNavigate  } from "react-router-dom";
 
-export default function Home({onEnter}) {
+export default function Home({}) {
 
     const navigate = useNavigate()
 
-    const onEnterShop = () => {
-        navigate('/body')
+    const onEnter = () => {
+        navigate('/shop')
     }
 
   return (
@@ -14,7 +14,7 @@ export default function Home({onEnter}) {
             <h1>Home</h1>
             <p>Welcome to the home page!</p>
             <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                onClick={onEnterShop}>
+                onClick={onEnter}>
                 Go to Shop
             </button>
         </div>
