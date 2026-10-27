@@ -4,6 +4,19 @@ export default function CartList(cart) {
 
 
     return(
-        sample
+        <div
+            className="boarder-t border-slate-800/80"
+        >
+            {/*cart.map( (item) => (
+                <div
+                    className=""
+                >
+                    <div>
+                        
+                    </div>
+                </div>))
+            */}
+            <h1>Yellow</h1>
+        </div>
     )
 }
