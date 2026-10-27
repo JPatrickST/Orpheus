@@ -15,8 +15,7 @@ export default function App() {
 
   const handleAddToCart = (product) => {
     const existing = cart.find(
-      (item) = item.id === product.id
-    )
+      (item) = item.id === product.id)
 
     if (existing) {
       cart.map( (item) => item.id === product.id ? 
@@ -60,6 +59,7 @@ export default function App() {
             <Body 
               currentProduct={currentProduct}
               handleAddToCart={handleAddToCart}
+              cart={cart}
             />
           </>
         }
