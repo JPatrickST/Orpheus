@@ -1,7 +1,7 @@
 import Specs from "./Specs";
 import PaymentDetails from "./PaymentDetails";
 
-export default function Body({ currentProduct }) {
+export default function Body({ currentProduct, handleAddToCart }) {
 
     return (
         <main>
@@ -24,6 +24,7 @@ export default function Body({ currentProduct }) {
                     <div className="w-full bg-stone-200 rounded-lg p-4">
                         <Specs
                             currentProduct={currentProduct}
+                            handleAddToCart={handleAddToCart}
                         />
                     </div>
                     <div className="w-full bg-stone-200 rounded-lg p-4">

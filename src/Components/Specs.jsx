@@ -1,4 +1,4 @@
-export default function Specs({ currentProduct }) {
+export default function Specs({ currentProduct, handleAddToCart }) {
 
     const formatMoney = (amount) => {
         return `$ ${amount.toLocaleString()}`
@@ -27,11 +27,22 @@ export default function Specs({ currentProduct }) {
             
             <div className="Specs_box flex flex-col text-sm border-t border-slate-800/80">
                 {currentProduct.specs.map((spec) => (
-                    <div key={spec.label} className="flex justify-between py-3 border-b border-slate-800/80">
+                    <div 
+                        key={spec.label} 
+                        className="flex justify-between py-3 border-b border-slate-800/80">
                         <span className="">{spec.label}</span>
                         <span className="font-mono">{spec.value}</span>
                     </div>
                 ))}
+
+                <button
+                    type="button"
+                    onClick={ () => handleAddToCart(currentProduct)}
+                    className="mt-5 py-2 bg-blue-500 rounded-lg w-full 
+                               font-medium hover:bg-blue-400"
+                >
+                    Add to cart
+                </button>
             </div>
         </article>
     )

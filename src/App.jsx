@@ -8,9 +8,29 @@ import Body from './Components/Body.jsx'
 export default function App() {
   const { pathname } = useLocation()
 
-  const [cart, setCart] = useState([
-    { id: 1, price: 19.99, name: 'Product 1' },
-  ])
+  // STATE 2: the cart. It is an ARRAY of OBJECTS, one object per instrument in the cart:
+  //   [ { id: "violin", name: "HP Violin", price: 1000, quantity: 2 },
+  //     { id: "kalimba", name: "Lumen Kalimba", price: 85, quantity: 1 } ]
+  const [cart, setCart] = useState([])
+
+  const handleAddToCart = (product) => {
+    const existing = cart.find(
+      (item) = item.id === product.id
+    )
+
+    if (existing) {
+      cart.map( (item) => item.id === product.id ? 
+        {...item, quantity: item.quantity + 1} : item
+      )
+    } else {
+      setCart([
+        ...cart, 
+        {id:       product.id, 
+         name:     product.name, 
+         price:    product.price, 
+         quantity: 1}
+      ])}
+  }
 
   const [selectedProduct, setSelectedProduct] = useState(products[0].id)
 
@@ -39,6 +59,7 @@ export default function App() {
             />
             <Body 
               currentProduct={currentProduct}
+              handleAddToCart={handleAddToCart}
             />
           </>
         }
