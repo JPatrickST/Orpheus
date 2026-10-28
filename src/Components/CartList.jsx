@@ -17,6 +17,8 @@ export default function CartList(cart) {
                 </div>))
 
                 Test
+
+                Test 2
             */}
             <h1>Yellow</h1>
         </div>
