@@ -15,13 +15,14 @@ export default function App() {
 
   const handleAddToCart = (product) => {
     const existing = cart.find(
-      (item) = item.id === product.id
-    )
+      (item) => item.id === product.id)
 
     if (existing) {
-      cart.map( (item) => item.id === product.id ? 
-        {...item, quantity: item.quantity + 1} : item
-      )
+      setCart( 
+        cart.map( (item) => item.id === product.id 
+        ? {...item, quantity: item.quantity + 1} 
+          : item
+      ))
     } else {
       setCart([
         ...cart, 
@@ -31,6 +32,12 @@ export default function App() {
          quantity: 1}
       ])}
   }
+
+  const handleRemove = (id) => {
+    setCart(
+      cart.filter(
+        (item) => (item.id !== id)
+      ))}
 
   const [selectedProduct, setSelectedProduct] = useState(products[0].id)
 
@@ -59,7 +66,9 @@ export default function App() {
             />
             <Body 
               currentProduct={currentProduct}
-              handleAddToCart={handleAddToCart}
+              cart={cart}
+              onRemove={handleRemove}
+              onAddToCart={handleAddToCart}
             />
           </>
         }

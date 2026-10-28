@@ -1,7 +1,15 @@
-import Specs from "./Specs";
+import { useState } from 'react'
+import Specs from './Specs'
+import Cart from './Cart'
 import PaymentDetails from "./PaymentDetails";
 
-export default function Body({ currentProduct, handleAddToCart }) {
+export default function Body({ currentProduct, onAddToCart, cart, onRemove}) {
+    const [buying, setBuying] = useState(false)
+
+    const handleRemove = (id) => {
+        onRemove(id)
+        if (cart.length === 1) {
+            setBuying(false)}}
 
     return (
         <main>
@@ -24,11 +32,20 @@ export default function Body({ currentProduct, handleAddToCart }) {
                     <div className="w-full bg-stone-200 rounded-lg p-4">
                         <Specs
                             currentProduct={currentProduct}
-                            handleAddToCart={handleAddToCart}
-                        />
+                            onAddToCart={onAddToCart}/>
                     </div>
                     <div className="w-full bg-stone-200 rounded-lg p-4">
-                        <PaymentDetails />
+                        
+                        <Cart 
+                            cart={cart}
+                            handleRemove={handleRemove}
+                            onBuyNow={() => setBuying(true)}/>
+
+                        {buying && (
+                            <div className="w-full bg-stone-200 rounded-lg p-4">
+                                <PaymentDetails />
+                            </div>
+                        )}
                     </div>
                     
                     

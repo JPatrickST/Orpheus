@@ -1,12 +1,9 @@
-export default function Specs({ currentProduct, handleAddToCart }) {
+import { formatMoney } from '../utils/totals'
 
-    const formatMoney = (amount) => {
-        return `$ ${amount.toLocaleString()}`
-    }
+export default function Specs({ currentProduct, onAddToCart }) {
 
     return (
         <article>
-            
             <div className="Specs_box ">
                 <div className="flex flex-col gap-1">
                     <p className="text-xs uppercase tracking-widest font-mono">
@@ -37,7 +34,7 @@ export default function Specs({ currentProduct, handleAddToCart }) {
 
                 <button
                     type="button"
-                    onClick={ () => handleAddToCart(currentProduct)}
+                    onClick={ () => onAddToCart(currentProduct)}
                     className="mt-5 py-2 bg-blue-500 rounded-lg w-full 
                                font-medium hover:bg-blue-400"
                 >
