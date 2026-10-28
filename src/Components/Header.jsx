@@ -1,12 +1,16 @@
 import { useNavigate } from "react-router-dom"
 
-export default function Header({products, selectedProduct, setSelectedProduct}) {
+export default function Header({products, cart, selectedProduct, setSelectedProduct}) {
 
     const navigate = useNavigate()
 
     const goHome = () => {
         navigate('/')
     }
+
+    const cartCount = cart.reduce((sum, item) => {
+        return sum + item.quantity
+    }, 0)  
 
     return (
         <header className="border-b border-stone-400 text-center">
@@ -30,6 +34,9 @@ export default function Header({products, selectedProduct, setSelectedProduct}) 
                         {product.name}
                     </button>
                 ))}
+                <span className="text-stone-600 font-mono">
+                    Cart: {cartCount}
+                </span>
             </nav>
         </header>
     )

@@ -31,6 +31,12 @@ export default function App() {
       ])}
   }
 
+  const handleRemove = (id) => {
+    setCart(
+      cart.filter(
+        (item) => (item.id !== id)
+      ))}
+
   const [selectedProduct, setSelectedProduct] = useState(products[0].id)
 
   const currentProduct = products.find(
@@ -58,8 +64,9 @@ export default function App() {
             />
             <Body 
               currentProduct={currentProduct}
-              handleAddToCart={handleAddToCart}
               cart={cart}
+              onRemove={handleRemove}
+              onAddToCart={handleAddToCart}
             />
           </>
         }

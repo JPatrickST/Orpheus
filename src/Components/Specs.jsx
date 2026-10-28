@@ -1,6 +1,6 @@
 import { formatMoney } from '../utils/totals'
 
-export default function Specs({ currentProduct, handleAddToCart }) {
+export default function Specs({ currentProduct, onAddToCart }) {
 
     return (
         <article>
@@ -34,7 +34,7 @@ export default function Specs({ currentProduct, handleAddToCart }) {
 
                 <button
                     type="button"
-                    onClick={ () => handleAddToCart(currentProduct)}
+                    onClick={ () => onAddToCart(currentProduct)}
                     className="mt-5 py-2 bg-blue-500 rounded-lg w-full 
                                font-medium hover:bg-blue-400"
                 >
