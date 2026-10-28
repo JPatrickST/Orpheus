@@ -15,12 +15,14 @@ export default function App() {
 
   const handleAddToCart = (product) => {
     const existing = cart.find(
-      (item) = item.id === product.id)
+      (item) => item.id === product.id)
 
     if (existing) {
-      cart.map( (item) => item.id === product.id ? 
-        {...item, quantity: item.quantity + 1} : item
-      )
+      setCart( 
+        cart.map( (item) => item.id === product.id 
+        ? {...item, quantity: item.quantity + 1} 
+          : item
+      ))
     } else {
       setCart([
         ...cart, 
