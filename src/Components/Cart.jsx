@@ -16,7 +16,7 @@ export default function Cart({cart, handleRemove, onAddToCart}) {
                 Your Cart
             </h1>
 
-            <CartList subtotal={subtotal} cart={cart} handleRemove={handleRemove}/>
+            <CartList cart={cart} handleRemove={handleRemove}/>
     
             <p className="flex justify-between py-3 font-bold">
                 <span>
