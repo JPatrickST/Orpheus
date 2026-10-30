@@ -6,6 +6,18 @@ import PaymentDetails from "./PaymentDetails";
 export default function Body({ currentProduct, onAddToCart, cart, onRemove}) {
     const [buying, setBuying] = useState(false)
 
+    const emptyDetails  = {
+        fullName: '',
+        email: '',
+        streetAddress: '',
+        city: '',
+        postalCode: '',
+        shippingAddress: 'Philippines',
+        paymentMethod: 'Credit Card'
+    }
+
+    const [details, setDetails] = useState(emptyDetails)
+
     const handleRemove = (id) => {
         onRemove(id)
         if (cart.length === 1) {
