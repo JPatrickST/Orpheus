@@ -8,9 +8,11 @@ export default function CartList({cart, handleRemove}) {
             {cart.map((item) => (
             <div 
                 key={item.id} 
-                className="grid grid-cols-[1fr_6rem_5rem] items-center gap-4 py-2 border-b border-slate-800/60">
+                className="grid grid-cols-[1fr_3rem_6rem_5rem] items-center gap-4 py-2 border-b border-slate-800/60">
 
-                <span>{item.name} × {item.quantity}</span>
+                <span>{item.name} </span>
+                <span
+                    className="text-center"> × {item.quantity}</span>
                 <span 
                     className="font-mono text-right">
                         {formatMoney(item.price * item.quantity)}
