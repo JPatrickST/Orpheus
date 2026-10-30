@@ -8,7 +8,7 @@ export default function CartList({cart, handleRemove, subtotal}) {
             {cart.map((item) => (
                 <div 
                     key={item.id} 
-                    className="grid grid-cols-[1fr_auto_auto] gap-6 items-center py-3 border-b border-slate-800/60">
+                    className="grid grid-cols-[1fr_6rem_5rem] gap-6 items-center py-3 border-b border-slate-800/60">
                     <span className="truncate">{item.name} × {item.quantity}</span>
 
                     <span className="font-mono text-right">{formatMoney(subtotal)}</span>
