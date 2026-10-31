@@ -4,7 +4,7 @@ import Specs from './Specs'
 import Cart from './Cart'
 import PaymentDetails from "./PaymentDetails";
 
-export default function Body({ currentProduct, onAddToCart, cart, onRemove, OrderPlaced}) {
+export default function Body({ currentProduct, onAddToCart, cart, onRemove, onOrderPlaced}) {
     const [buying, setBuying] = useState(false)
 
     const emptyDetails  = {
@@ -16,21 +16,21 @@ export default function Body({ currentProduct, onAddToCart, cart, onRemove, Orde
         shippingAddress: 'Philippines',
         paymentMethod: 'Credit Card'
     }
+    const [details, setDetails] = useState(emptyDetails)
+    const [order, setOrder] = useState(null)
 
     const shippingRates = {
         'Philippines': 12,
         'Rest of Asia': 35,
-        'Rest of the World': 60,
+        'Rest of World': 60,
     }
+
 
     const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
     const shipping = shippingRates[details.shippingAddress]
     const total = subtotal + shipping 
 
-    const [details, setDetails] = useState(emptyDetails)
-
-    const [order, setOrder] = useState(null)
-
+    
     const handleSubmit = (event) => {
         event.preventDefault()
 
@@ -46,7 +46,7 @@ export default function Body({ currentProduct, onAddToCart, cart, onRemove, Orde
 
     const handleChange = (e) => {
         setDetails({
-            ...details, [e.target.name]: [e.target.value]
+            ...details, [e.target.name]: e.target.value
         })
     }
 
@@ -121,7 +121,7 @@ export default function Body({ currentProduct, onAddToCart, cart, onRemove, Orde
                                     <button 
                                        type="submit" 
                                        className="w-full bg-stone-800 text-white py-2 rounded-md 
-                                                  over:bg-stone-700">
+                                                  hover:bg-stone-700">
                                         Place order                 
                                     </button>
                                     <button 
@@ -147,7 +147,7 @@ export default function Body({ currentProduct, onAddToCart, cart, onRemove, Orde
                             Order placed
                         </h2>
                         <p>
-                            Thank you, {order.name}. {order.itemCount} item(s), total {formatMoney(order)}. 
+                            Thank you, {order.name}. {order.itemCount} item(s), total {formatMoney(order.total)}. 
                             This is a demo, nothing was charged or shipped.
                         </p>
                     </div>

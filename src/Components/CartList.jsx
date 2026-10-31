@@ -4,7 +4,7 @@ export default function CartList({cart, handleRemove}) {
 
 
     return(
-        <div className="boarder-t border-slate-800/80" >
+        <div className="border-t border-slate-800/80" >
             {cart.map((item) => (
             <div 
                 key={item.id} 

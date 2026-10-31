@@ -1,9 +1,9 @@
 import { formatMoney } from '../utils/totals'
 import CartList from './CartList'
 
-export default function Cart({cart, handleRemove, subtotal, onAddToCart}) {
+export default function Cart({cart, handleRemove, subtotal, onBuyNow}) {
 
-    if (cart.lenght === 0) {
+    if (cart.length === 0) {
         return <p>Your cart is empty.</p>
     }
 
@@ -25,7 +25,7 @@ export default function Cart({cart, handleRemove, subtotal, onAddToCart}) {
             </p>
 
             <button
-                onClick={onAddToCart}
+                onClick={onBuyNow}
                 className='w-full bg-stone-800 text-white py-2 rounded-md hover:bg-stone-700'>
                 Buy now
             </button>

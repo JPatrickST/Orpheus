@@ -115,6 +115,7 @@ export default function PaymentDetails({details, onChange}) {
                         </label>
                         <select
                             id="shippingAddress"
+                            name="shippingAddress"
                             value={details.shippingAddress}
                             onChange={onChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md 
@@ -135,6 +136,7 @@ export default function PaymentDetails({details, onChange}) {
                     </label>
                     <select
                         id="paymentMethod"
+                        name="paymentMethod"
                         value={details.paymentMethod}
                         onChange={onChange}
                         required
