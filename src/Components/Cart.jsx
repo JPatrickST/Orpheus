@@ -1,10 +1,7 @@
 import { formatMoney } from '../utils/totals'
 import CartList from './CartList'
 
-export default function Cart({cart, handleRemove, onAddToCart}) {
-    const subtotal = cart.reduce(
-        (sum, item) => sum + item.price * item.quantity, 0
-    )
+export default function Cart({cart, handleRemove, subtotal, onAddToCart}) {
 
     if (cart.lenght === 0) {
         return <p>Your cart is empty.</p>

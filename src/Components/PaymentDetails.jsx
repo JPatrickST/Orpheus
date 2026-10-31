@@ -1,7 +1,7 @@
-import { useState } from "react";
+//import { useState } from "react";
 
-export default function PaymentDetails() {
-    const [paymentDetails, setPaymentDetails] = useState(null);
+export default function PaymentDetails({details, onChange}) {
+    //const [paymentDetails, setPaymentDetails] = useState(null);
 
     return (
         <>
@@ -19,9 +19,13 @@ export default function PaymentDetails() {
                         type="text"
                         id="name"
                         name="fullName"
+                        value={details.fullName}
+                        onChange={onChange}
+                        required
                         placeholder="Juan Dela Cruz"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
+                        className="mt-1 block w-full border border-gray-300 rounded-md 
+                                   shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 
+                                 focus:border-blue-500"/>
                 </div>
 
                 <div className="w-full mt-4">
@@ -34,9 +38,13 @@ export default function PaymentDetails() {
                         type="text"
                         id="email"
                         name="email"
+                        value={details.email}
+                        onChange={onChange}
+                        required
                         placeholder="juan.dela.cruz@example.com"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
+                        className="mt-1 block w-full border border-gray-300 rounded-md 
+                                   shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 
+                                   focus:border-blue-500"/>
                 </div>
 
                 <div className="w-full mt-4">
@@ -49,9 +57,13 @@ export default function PaymentDetails() {
                         type="text"
                         id="streetAddress"
                         name="streetAddress"
+                        value={details.streetAddress}
+                        onChange={onChange}
+                        required
                         placeholder="123 Main Street"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
+                        className="mt-1 block w-full border border-gray-300 rounded-md 
+                                   shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 
+                                   focus:border-blue-500"/>
                 </div>
 
                 <div className="flex flex-row gap-4 mt-4">
@@ -65,9 +77,13 @@ export default function PaymentDetails() {
                             type="text"
                             id="city"
                             name="city"
+                            value={details.city}
+                            onChange={onChange}
+                            required
                             placeholder="Manila"
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
+                            className="mt-1 block w-full border border-gray-300 rounded-md 
+                                       shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500
+                                       focus:border-blue-500"/>
                     </div>
 
                     <div className="w-full">
@@ -80,9 +96,13 @@ export default function PaymentDetails() {
                             type="text"
                             id="postalCode"
                             name="postalCode"
+                            value={details.postalCode}
+                            onChange={onChange}
+                            required
                             placeholder="1000"
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
+                            className="mt-1 block w-full border border-gray-300 rounded-md 
+                                       shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500
+                                     focus:border-blue-500"/>
                     </div>
                 </div>
 
@@ -90,50 +110,37 @@ export default function PaymentDetails() {
                     <div className="w-full">
                         <label 
                             htmlFor="shippingAddress"
-                            className="block text-sm font-medium text-gray-700"
-                        >
+                            className="block text-sm font-medium text-gray-700">
                             Ship To
                         </label>
                         <select
                             id="shippingAddress"
-                            //value={shippingAddress}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        >
+                            value={details.shippingAddress}
+                            onChange={onChange}
+                            className="mt-1 block w-full border border-gray-300 rounded-md 
+                                       shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500
+                                     focus:border-blue-500">
                             <option value="Philippines">Philippines</option>
                             <option value="Rest of Asia">Rest of Asia</option>
                             <option value="Rest of World">Rest of World</option>
                         </select>
-                    </div>
-                    <div className="w-full">
-                        <label 
-                            htmlFor="Quantity"
-                            className="block text-sm font-medium text-gray-700"
-                        >
-                            Quantity
-                        </label>
-                        <input
-                            type="number"
-                            id="Quantity"
-                            name="Quantity"
-                            min="1"
-                            defaultValue="1"
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
                     </div>
                 </div>
                 
                 <div className="w-full mt-4">
                     <label 
                         htmlFor="paymentMethod"
-                        className="block text-sm font-medium text-gray-700"
-                    >
+                        className="block text-sm font-medium text-gray-700">
                         Payment Method
                     </label>
                     <select
                         id="paymentMethod"
-                        //value={paymentMethod}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    >
+                        value={details.paymentMethod}
+                        onChange={onChange}
+                        required
+                        className="mt-1 block w-full border border-gray-300 rounded-md 
+                                   shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 
+                                   focus:border-blue-500">
                         <option value="Credit Card">Credit Card</option>
                         <option value="PayPal">PayPal</option>
                         <option value="Bank Transfer">Bank Transfer</option>
