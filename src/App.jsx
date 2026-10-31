@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import {Route, Routes, useLocation } from 'react-router-dom'
 import { products } from './Data/products.js'
-import Home from './Components/Home.jsx'
-import Header from './Components/Header.jsx'
-import Body from './Components/Body.jsx'
+import Home from './Pages/Home.jsx'
+import Header from './Group/Header.jsx'
+import Body from './Pages/Body.jsx'
 
 export default function App() {
   const { pathname } = useLocation()

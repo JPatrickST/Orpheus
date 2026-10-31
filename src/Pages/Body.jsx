@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { formatMoney } from '../utils/totals';
-import Specs from './Specs'
-import Cart from './Cart'
-import PaymentDetails from "./PaymentDetails";
+import Specs from '../Components/Specs'
+import Cart from '../Components/Cart'
+import PaymentDetails from "../Components/PaymentDetails";
 
 export default function Body({ currentProduct, onAddToCart, cart, onRemove, onOrderPlaced}) {
     const [buying, setBuying] = useState(false)
