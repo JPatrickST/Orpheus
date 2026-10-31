@@ -39,6 +39,8 @@ export default function App() {
         (item) => (item.id !== id)
       ))}
 
+  const handleOrderPlaced = () => setCart([])
+
   const [selectedProduct, setSelectedProduct] = useState(products[0].id)
 
   const currentProduct = products.find(
@@ -69,6 +71,7 @@ export default function App() {
               cart={cart}
               onRemove={handleRemove}
               onAddToCart={handleAddToCart}
+              onOrderPlaced={handleOrderPlaced}
             />
           </>
         }
