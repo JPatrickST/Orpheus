@@ -21,7 +21,7 @@ export default function Body({ currentProduct, onAddToCart, cart, onRemove, onOr
 
     useEffect(() => {
         if (!order) return
-        const timer = setTimeout(() => setOrder(null), 3000)
+        const timer = setTimeout(() => setOrder(null), 5000)
         return () => clearTimeout(timer)
     }, [order])
 

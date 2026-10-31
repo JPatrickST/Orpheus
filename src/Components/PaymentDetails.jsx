@@ -1,7 +1,5 @@
-//import { useState } from "react";
 
 export default function PaymentDetails({details, onChange}) {
-    //const [paymentDetails, setPaymentDetails] = useState(null);
 
     return (
         <>
