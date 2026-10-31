@@ -1,42 +1,41 @@
 # Orpheus
 
-A front-end storefront for a fictional musical instrument shop, built as a portfolio project while learning React and Tailwind CSS. It is a demo: there is no backend, no real checkout, and nothing is saved or sent anywhere. The project is still in progress, and this README describes what the code does today.
+A front-end storefront for a fictional musical instrument shop, built as a portfolio project while learning React and Tailwind CSS. It is a demo: there is no backend, no real payment, and nothing is saved or sent anywhere. The project is still in progress, and this README describes what the code does today.
 
 ## What works today
 
-- **Welcome page** with a button that opens the shop. Page switching is done with a `useState` value (`'home'` or `'shop'`), not a router.
+- **Welcome page** (`/`) with a button that opens the shop.
+- **Shop page** (`/shop`) with the header, instrument details, cart, and buy form together on one screen. Routing is done with React Router.
 - **Five instruments** stored as an array of objects in `src/Data/products.js`: HP Violin, Solace Classical Guitar, Lumen Kalimba, Sora Bamboo Flute, and Nocturne Handpan.
-- **Instrument switching** from the header. Choosing an instrument updates the specs panel (category, name, price, description, spec list).
-- **Buy and Ship form** as its own component (`PaymentDetails`). The fields are visible but not yet connected to state.
+- **Instrument switching** from the header. Choosing an instrument updates the details panel (category, name, price, description, spec list).
+- **Cart** kept as a `useState` array of objects (`id`, `name`, `price`, `quantity`):
+  - Add to cart; adding the same instrument again increases its quantity instead of adding a second row.
+  - Each row shows name, quantity, line total, and a Remove button.
+  - A running subtotal, and an item count in the header (`Cart: 3`).
+  - An empty-cart message.
+- **Buy now** opens the Buy and Ship form only when the cart has items. The form closes if the last item is removed or the user cancels.
+- **Buy and Ship form** with controlled inputs (name, email, street address, city, postal code, ship-to region, payment method). Required fields are checked by the browser before submitting.
+- **Order summary** with subtotal, shipping by region (Philippines $12, Rest of Asia $35, Rest of World $60), and a total that updates when the region changes.
+- **Order confirmation** shown as a blurred overlay. It closes after 5 seconds or when clicked, and the cart is emptied.
 - Clicking the **Orpheus** title in the header returns to the welcome page.
 
 ## Not built yet
 
 - The **Picture** and **Sound Sample** boxes are placeholders.
-- The **cart** exists as state in `App.jsx`, but there is no add-to-cart, quantity, or total logic yet.
-- The **buy form** has no state, validation, or submit handling, and the shipping and payment selects are not controlled.
+- The **welcome page** is a plain placeholder and is not styled to match the shop.
+- Quantity can only be changed by adding more from the details panel; there are no `+` / `-` buttons in the cart.
+- The shop layout does not adapt to phone widths (the two columns stay side by side).
 - No Supabase connection. Products come from the local data file.
-
-## Known issue
-
-`src/Components/Specs.jsx` calls `formatMoney(...)`, but that function is not defined or imported anywhere. The home page loads, but the shop page fails to render (blank screen, console error `formatMoney is not defined`) until it is added. Fix: create `src/utils/formatMoney.js` with
-
-```js
-export function formatMoney(amount) {
-    return `$ ${amount.toLocaleString()}`
-}
-```
-
-and add `import { formatMoney } from "../utils/formatMoney.js"` at the top of `Specs.jsx`.
 
 ## Stack
 
 | Area | Tools |
 | --- | --- |
 | Framework | React 19, Vite 8, JavaScript/JSX |
+| Routing | React Router (`react-router-dom` 7) |
 | Styling | Tailwind CSS 3.4 with PostCSS and Autoprefixer |
 | Tooling | ESLint 10 with `eslint-plugin-react-hooks`, React Compiler (via `babel-plugin-react-compiler`) |
-| Planned | Supabase (instrument data), Web Audio for sound samples |
+| Planned | Supabase (instrument data), audio samples |
 
 ## Structure
 
@@ -47,17 +46,20 @@ Orpheus-main/
 │   ├── assets/                # Starter assets from the Vite template
 │   ├── Components/
 │   │   ├── Home.jsx           # Welcome page
-│   │   ├── Header.jsx         # Title and instrument buttons
-│   │   ├── Body.jsx           # Two-column shop layout
-│   │   ├── Specs.jsx          # Selected instrument details
-│   │   └── PaymentDetails.jsx # Buy and Ship form
+│   │   ├── Header.jsx         # Title, instrument buttons, cart count
+│   │   ├── Body.jsx           # Shop layout, buying flow, order overlay
+│   │   ├── Specs.jsx          # Selected instrument details + Add to cart
+│   │   ├── Cart.jsx           # Cart heading, subtotal, Buy now
+│   │   ├── CartList.jsx       # One aligned row per cart item
+│   │   └── PaymentDetails.jsx # Buy and Ship form fields
 │   ├── CSS/
 │   │   ├── index.css          # Tailwind directives
 │   │   └── App.css
 │   ├── Data/products.js       # The five instruments
-│   ├── App.jsx                # Page, cart, and selected-instrument state
-│   ├── main.jsx
-│   └── output.css             # Generated stylesheet (see Notes)
+│   ├── utils/totals.js        # formatMoney helper
+│   ├── App.jsx                # Routes and the cart state
+│   ├── main.jsx               # Renders the app inside BrowserRouter
+│   └── output.css             # Leftover stylesheet (see Notes)
 ├── index.html
 ├── tailwind.config.js
 ├── postcss.config.js
@@ -66,15 +68,26 @@ Orpheus-main/
 └── package.json
 ```
 
-### How the pieces fit
+### Routes
 
-`App.jsx` holds the state and passes it down as props:
-
-| State | Purpose |
+| Path | Shows |
 | --- | --- |
-| `page` | `'home'` or `'shop'`; decides which screen is shown |
-| `selectedProduct` | id of the instrument on screen; `currentProduct` is looked up from it |
-| `cart` | array of item objects; currently one sample item |
+| `/` | `Home` |
+| `/shop` | `Header` and `Body` together |
+
+`BrowserRouter` is set up once, in `main.jsx`. It must not be added a second time in `App.jsx`.
+
+### How the state is organised
+
+| State | Lives in | Purpose |
+| --- | --- | --- |
+| `cart` | `App` | Array of `{ id, name, price, quantity }` objects; changed only through `handleAddToCart`, `handleRemove`, and `handleOrderPlaced` |
+| `selectedProduct` | `App` | Id of the instrument on screen; `currentProduct` is looked up from it |
+| `buying` | `Body` | Whether the Buy and Ship form is visible |
+| `details` | `Body` | One object holding every form field; shared with the order summary |
+| `order` | `Body` | Snapshot of the last order, used by the confirmation overlay |
+
+Values that can be worked out from state (subtotal, shipping, total, cart count) are calculated on each render rather than stored.
 
 ## Prerequisites and installation
 
@@ -113,22 +126,27 @@ Open `src/Data/products.js`, copy one object in the array, give it a new unique 
 }
 ```
 
+## Deployment note
+
+The app uses client-side routing. A static host must send every path to `index.html`, or refreshing on `/shop` returns a 404. Vercel and Netlify need a rewrite rule for this; the Vite dev server handles it automatically.
+
 ## Notes
 
-- `index.html` links `./output.css`, which duplicates what Vite already builds from `src/CSS/index.css`, and the path does not resolve (404 in the browser console). The line can be removed.
+- `index.html` links `./output.css`, which does not exist at build time (Vite prints a warning). The line can be removed.
 - `src/CSS/App.css` is not imported anywhere.
 
 ## Status check
 
-Checked on 18 October 2026 with Node 22.22.0 and npm 10.9.4:
+Checked on 31 October 2026 with Node 22.22.0 and npm 10.9.4:
 
-- `npm run build` succeeds, but the shop page crashes at runtime because of the `formatMoney` issue above.
-- `npm run lint` reports 5 errors: the missing `formatMoney`, plus unused variables (`setCart` in `App.jsx`, and `useEffect`, `paymentDetails`, `setPaymentDetails` in `PaymentDetails.jsx`). Only the first affects behavior; the others will clear once the cart and form state are used.
+- `npm run lint` and `npm run build` both pass with no errors.
+- In a browser, the full flow worked with no console errors: welcome page, shop, instrument switching, add to cart (quantity merging), remove, Buy now, shipping total by region, required-field validation, order overlay with automatic close, and the cart emptying after an order.
 
 ## Next steps
 
-1. Define `formatMoney` so the shop page renders.
-2. Add add-to-cart, quantity, and a combined total, using immutable updates on the `cart` array.
-3. Connect the Buy and Ship form to state and show it only after "Buy now".
-4. Fill the Picture and Sound Sample boxes.
-5. Move the product data to Supabase.
+1. Add an image and an audio sample per instrument (`image` and `audio` fields in `products.js`) and show them in the Picture and Sound Sample boxes.
+2. Style the welcome page to match the shop, with a hover effect on its button.
+3. Make the layout stack on phone widths (`flex-col md:flex-row`).
+4. Add `+` / `-` quantity buttons in the cart.
+5. Remove the `output.css` link, then deploy with a rewrite rule for `/shop`.
+6. Move the product data to Supabase.
