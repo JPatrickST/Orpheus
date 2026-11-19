@@ -8,6 +8,16 @@ function formatTime(seconds) {
     return `${minutes}:${rest}`
 }
 
+// The label above the player. Light mode says "Sound sample", dark mode says "Plate II · Listen".
+function Label() {
+    return (
+        <p className="eyebrow">
+            <span className="dark:hidden">Sound sample</span>
+            <span className="hidden dark:inline">Plate II &middot; Listen</span>
+        </p>
+    )
+}
+
 // A small audio player. The real <audio> element is hidden; we draw our own buttons and talk to it through a ref.
 export default function SoundPlayer({ src, name }) {
 
@@ -20,9 +30,9 @@ export default function SoundPlayer({ src, name }) {
 
     if (!src) {
         return (
-            <div className="rounded-3xl border border-dashed border-line px-5 py-4 text-sm text-muted">
-                <span className="eyebrow">Sound sample</span>
-                <p className="mt-1">A recording of this instrument is coming soon.</p>
+            <div className="rounded-card border border-dashed border-line px-5 py-4 text-sm text-soft dark:border-accent/30 dark:text-base">
+                <Label />
+                <p className="mt-1 dark:italic">A recording of this instrument is coming soon.</p>
             </div>
         )
     }
@@ -44,14 +54,15 @@ export default function SoundPlayer({ src, name }) {
     }
 
     return (
-        <div className="rounded-3xl border border-line bg-sand/60 px-5 py-4">
-            <p className="eyebrow">Sound sample</p>
+        <div className="plate px-5 py-4">
+            <Label />
 
             <div className="mt-3 flex items-center gap-4">
                 <button
                     onClick={togglePlay}
                     aria-label={playing ? `Pause ${name}` : `Play ${name}`}
-                    className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-clay text-white transition hover:bg-clay-dark active:scale-95"
+                    className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-action text-on-action transition hover:bg-action-hover active:scale-95
+                               dark:border dark:border-accent/60 dark:hover:border-accent"
                 >
                     {playing ? (
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -74,9 +85,9 @@ export default function SoundPlayer({ src, name }) {
                         value={time}
                         onChange={handleSeek}
                         aria-label={`Position in the ${name} sample`}
-                        className="h-1.5 w-full cursor-pointer accent-clay"
+                        className="h-1.5 w-full cursor-pointer accent-accent"
                     />
-                    <div className="mt-1 flex justify-between text-xs tabular-nums text-muted">
+                    <div className="mt-1 flex justify-between text-xs tabular-nums text-soft dark:text-sm">
                         <span>{formatTime(time)}</span>
                         <span>{formatTime(duration)}</span>
                     </div>

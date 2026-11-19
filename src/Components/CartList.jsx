@@ -8,20 +8,20 @@ export default function CartList({ cart, onChangeQuantity, onRemove }) {
                 <li key={item.id} className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-3 py-5">
 
                     <div>
-                        <p className="font-display text-lg leading-tight">{item.name}</p>
-                        <p className="text-sm tabular-nums text-muted">{formatMoney(item.price)} each</p>
+                        <p className="font-display text-lg leading-tight dark:text-xl dark:font-semibold">{item.name}</p>
+                        <p className="text-sm tabular-nums text-soft">{formatMoney(item.price)} each</p>
                     </div>
                     <p className="text-right font-medium tabular-nums">
                         {formatMoney(item.price * item.quantity)}
                     </p>
 
                     {/* The - 1 + stepper. Disabled at the limits (1 and 10). */}
-                    <div className="inline-flex items-center justify-self-start rounded-full border border-line">
+                    <div className="inline-flex items-center justify-self-start rounded-btn border border-line dark:border-accent/40">
                         <button
                             onClick={() => onChangeQuantity(item.id, -1)}
                             disabled={item.quantity <= 1}
                             aria-label={`Decrease quantity of ${item.name}`}
-                            className="h-9 w-9 rounded-full text-lg transition hover:bg-sand disabled:opacity-30 disabled:hover:bg-transparent"
+                            className="h-9 w-9 rounded-btn text-lg transition hover:bg-panel-hover disabled:opacity-30 disabled:hover:bg-transparent dark:text-accent"
                         >
                             −
                         </button>
@@ -32,7 +32,7 @@ export default function CartList({ cart, onChangeQuantity, onRemove }) {
                             onClick={() => onChangeQuantity(item.id, 1)}
                             disabled={item.quantity >= 10}
                             aria-label={`Increase quantity of ${item.name}`}
-                            className="h-9 w-9 rounded-full text-lg transition hover:bg-sand disabled:opacity-30 disabled:hover:bg-transparent"
+                            className="h-9 w-9 rounded-btn text-lg transition hover:bg-panel-hover disabled:opacity-30 disabled:hover:bg-transparent dark:text-accent"
                         >
                             +
                         </button>
@@ -40,7 +40,7 @@ export default function CartList({ cart, onChangeQuantity, onRemove }) {
 
                     <button
                         onClick={() => onRemove(item.id)}
-                        className="justify-self-end text-sm text-muted underline underline-offset-4 transition hover:text-clay"
+                        className="justify-self-end text-sm text-soft underline underline-offset-4 transition hover:text-accent dark:italic"
                     >
                         Remove
                     </button>

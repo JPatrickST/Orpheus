@@ -91,7 +91,7 @@ export default function PaymentDetails({ details, onChange }) {
                         <option value="PayPal">PayPal</option>
                         <option value="Bank Transfer">Bank Transfer</option>
                     </select>
-                    <p className="mt-2 text-xs text-muted">This is a demo. No payment is taken.</p>
+                    <p className="mt-2 text-xs text-soft dark:text-sm dark:italic">This is a demo. No payment is taken.</p>
                 </div>
             </fieldset>
         </div>

@@ -9,7 +9,7 @@ export default function PageMessage({ title, text, action, onAction, pulse }) {
             <h1 className={`font-display text-3xl sm:text-4xl ${pulse ? "animate-pulse" : ""}`}>
                 {title}
             </h1>
-            {text && <p className="max-w-md text-sm text-muted">{text}</p>}
+            {text && <p className="max-w-md text-soft dark:italic">{text}</p>}
             {action && (
                 <div className="mt-2 flex flex-wrap justify-center gap-3">
                     <button className="btn-primary" onClick={onAction}>{action}</button>

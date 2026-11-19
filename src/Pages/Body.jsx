@@ -28,9 +28,12 @@ export default function Body({ currentProduct, onAddToCart }) {
                 <Specs key={`specs-${currentProduct.id}`} currentProduct={currentProduct} onAddToCart={onAddToCart} />
             </div>
 
-            <p className="mt-16 border-t border-line pt-6 text-center text-xs text-muted">
-                Orpheus is a fictional shop made for a portfolio. Nothing here is for sale.
-            </p>
+            <div className="mt-16 border-t border-line pt-6 text-center dark:border-accent/30">
+                <p className="hidden text-accent dark:block" aria-hidden="true">✦</p>
+                <p className="text-xs text-soft dark:mt-2 dark:text-sm dark:italic">
+                    Orpheus is a fictional shop made for a portfolio. Nothing here is for sale.
+                </p>
+            </div>
         </main>
     )
 }
