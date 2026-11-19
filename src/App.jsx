@@ -1,43 +1,56 @@
 import { useState, useEffect } from 'react'
-import {Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { supabase } from './lib/supabase.js'
 import Home from './Pages/Home.jsx'
 import Header from './Group/Header.jsx'
 import Body from './Pages/Body.jsx'
+import CartDrawer from './Components/CartDrawer.jsx'
+import PageMessage from './Components/PageMessage.jsx'
 
 export default function App() {
   const { pathname } = useLocation()
+  const navigate = useNavigate()
 
-  // STATE 2: the cart. It is an ARRAY of OBJECTS, one object per instrument in the cart:
-  //   [ { id: "violin", name: "HP Violin", price: 1000, quantity: 2 },
-  //     { id: "kalimba", name: "Lumen Kalimba", price: 85, quantity: 1 } ]
+  // The cart: an ARRAY of OBJECTS, one object per instrument in the cart.
+  //   [ { id: "violin", name: "HP Violin", price: 1000, quantity: 2 }, ... ]
   const [cart, setCart] = useState([])
 
+  // Is the cart drawer (the panel that slides in from the right) open?
+  const [cartOpen, setCartOpen] = useState(false)
+
   const handleAddToCart = (product) => {
-    const existing = cart.find(
-      (item) => item.id === product.id)
+    const existing = cart.find((item) => item.id === product.id)
 
     if (existing) {
-      setCart( 
-        cart.map( (item) => item.id === product.id 
-        ? {...item, quantity: item.quantity + 1} 
-          : item
-      ))
+      setCart(
+        cart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      )
     } else {
       setCart([
-        ...cart, 
-        {id:       product.id, 
-         name:     product.name, 
-         price:    product.price, 
-         quantity: 1}
-      ])}
+        ...cart,
+        { id: product.id, name: product.name, price: product.price, quantity: 1 },
+      ])
+    }
+  }
+
+  // change is +1 or -1. The quantity is kept between 1 and 10.
+  const handleChangeQuantity = (id, change) => {
+    setCart(
+      cart.map((item) =>
+        item.id === id
+          ? { ...item, quantity: Math.min(10, Math.max(1, item.quantity + change)) }
+          : item
+      )
+    )
   }
 
   const handleRemove = (id) => {
-    setCart(
-      cart.filter(
-        (item) => (item.id !== id)
-      ))}
+    setCart(cart.filter((item) => item.id !== id))
+  }
 
   const handleOrderPlaced = () => setCart([])
 
@@ -47,44 +60,60 @@ export default function App() {
   const [selectedProduct, setSelectedProduct] = useState(null)
 
   const currentProduct = products.find(
-  (product) => product.id === selectedProduct)
+    (product) => product.id === selectedProduct)
 
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
 
   useEffect(() => {
-  async function loadProducts() {
-    const { data, error } = await supabase
-      .from('products')
-      .select('*')
-      .order('price')
+    async function loadProducts() {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('price')
 
-    if (error) {
-      setError(error.message)
-    } else {
-      setProducts(data)
-      setSelectedProduct(data[0]?.id)
-    }
-    setLoading(false)
+      if (error) {
+        setError(error.message)
+      } else {
+        setProducts(data)
+        setSelectedProduct(data[0]?.id)
+      }
+      setLoading(false)
     }
 
     loadProducts()
   }, [])
 
+  // Used by the home page: pick an instrument, then go to the shop with it already selected
+  const handlePickFromHome = (id) => {
+    setSelectedProduct(id)
+    navigate('/shop')
+  }
 
   return (
     <Routes>
       <Route
         path="/"
         element={
-          <Home />}
+          <Home
+            products={products}
+            loading={loading}
+            error={error}
+            onPick={handlePickFromHome}
+          />
+        }
       />
       <Route
-        path='/shop'
+        path="/shop"
         element={
           loading ? (
-            <p className="text-center mt-10">Loading instruments...</p>
+            <PageMessage title="Tuning the instruments..." pulse />
           ) : error ? (
-            <p className="text-center mt-10">Couldn't load the instruments: {error}</p>
+            <PageMessage
+              title="We couldn't load the instruments"
+              text={error}
+              action="Try again"
+              onAction={() => window.location.reload()}
+            />
           ) : (
             <>
               <Header
@@ -92,12 +121,18 @@ export default function App() {
                 cart={cart}
                 selectedProduct={selectedProduct}
                 setSelectedProduct={setSelectedProduct}
+                onOpenCart={() => setCartOpen(true)}
               />
               <Body
                 currentProduct={currentProduct}
-                cart={cart}
-                onRemove={handleRemove}
                 onAddToCart={handleAddToCart}
+              />
+              <CartDrawer
+                open={cartOpen}
+                onClose={() => setCartOpen(false)}
+                cart={cart}
+                onChangeQuantity={handleChangeQuantity}
+                onRemove={handleRemove}
                 onOrderPlaced={handleOrderPlaced}
               />
             </>
