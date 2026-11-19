@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import {Route, Routes, useLocation } from 'react-router-dom'
-import { products } from './Data/products.js'
+import { supabase } from './lib/supabase.js'
 import Home from './Pages/Home.jsx'
 import Header from './Group/Header.jsx'
 import Body from './Pages/Body.jsx'
@@ -41,12 +41,34 @@ export default function App() {
 
   const handleOrderPlaced = () => setCart([])
 
-  const [selectedProduct, setSelectedProduct] = useState(products[0].id)
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [selectedProduct, setSelectedProduct] = useState(null)
 
   const currentProduct = products.find(
-    (product) => product.id === selectedProduct)
+  (product) => product.id === selectedProduct)
 
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+
+  useEffect(() => {
+  async function loadProducts() {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .order('price')
+
+    if (error) {
+      setError(error.message)
+    } else {
+      setProducts(data)
+      setSelectedProduct(data[0]?.id)
+    }
+    setLoading(false)
+    }
+
+    loadProducts()
+  }, [])
 
 
   return (
@@ -56,24 +78,30 @@ export default function App() {
         element={
           <Home />}
       />
-      <Route 
+      <Route
         path='/shop'
-        element ={
-          <>
-            <Header 
-              products={products}
-              cart={cart}
-              selectedProduct={selectedProduct}
-              setSelectedProduct={setSelectedProduct}
-            />
-            <Body 
-              currentProduct={currentProduct}
-              cart={cart}
-              onRemove={handleRemove}
-              onAddToCart={handleAddToCart}
-              onOrderPlaced={handleOrderPlaced}
-            />
-          </>
+        element={
+          loading ? (
+            <p className="text-center mt-10">Loading instruments...</p>
+          ) : error ? (
+            <p className="text-center mt-10">Couldn't load the instruments: {error}</p>
+          ) : (
+            <>
+              <Header
+                products={products}
+                cart={cart}
+                selectedProduct={selectedProduct}
+                setSelectedProduct={setSelectedProduct}
+              />
+              <Body
+                currentProduct={currentProduct}
+                cart={cart}
+                onRemove={handleRemove}
+                onAddToCart={handleAddToCart}
+                onOrderPlaced={handleOrderPlaced}
+              />
+            </>
+          )
         }
       />
     </Routes>
